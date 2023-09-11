@@ -22,69 +22,87 @@ router.get('/', function (req, res) {
 // ================================================================
 
 class Product {
-  #list = []
+  static #list = []
 
-  constructor(id, name, price, description) {
-    this.id =
-      id || Math.floor(Math.random() * 90000) + 10000 // Генеруємо id, якщо він не був переданий
-    this.createDate = new Date().toISOString()
+  constructor(name, price, description) {
     this.name = name
     this.price = price
     this.description = description
-
-    this.#list.push(this)
+    this.id = Math.floor(Math.random() * 100000) // Генеруємо id, якщо він не був переданий
+    this.createDate = () => {
+      this.date = new Date().toISOString()
+    }
   }
 
   // Метод для отримання списку створених товарів
-  static getList() {
-    return this.#list
-  }
+  static getList = () => this.#list
+
+  checkId = (id) => this.id === id
 
   // Метод для додавання товару до списку
-  static add(product) {
+  static add = (product) => {
     this.#list.push(product)
   }
 
   // Метод для отримання товару за ID
-  static getById(id) {
-    return this.#list.find((product) => product.id === id)
+  static getById = (id) =>
+    this.#list.find((product) => product.id === id)
+
+  static updateById = (id, data) => {
+    const product = this.getById(id)
   }
 
   // Метод для оновлення товару за ID
-  static updateById(id, data) {
-    const product = this.getById(id)
-    if (product) {
-      if (data.price !== undefined)
-        product.price = data.price
-      if (data.name !== undefined) product.name = data.name
-      if (data.description !== undefined)
-        product.description = data.description
-    }
-  }
 
-  // Метод для видалення товару за ID
   static deleteById(id) {
     const index = this.#list.findIndex(
       (product) => product.id === id,
     )
     if (index !== -1) {
       this.#list.splice(index, 1)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static updateById = (id, data) => {
+    const product = this.getById(id)
+    const { name } = data
+
+    if (product) {
+      if (name) {
+        product.name = name
+      }
+      return true
+    } else {
+      return false
+    }
+  }
+
+  static update = (name, { product }) => {
+    if (name) {
+      product.name = name
     }
   }
 }
+// =================================================================
 
 // =================================================================
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/product-create', function (req, res) {
   // res.render генерує нам HTML сторінку
 
+  const list = Product.getList()
+
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('product-create', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'index',
+    style: 'product-create',
   })
   // ↑↑ сюди вводимо JSON дані
 })
+//====================================================================
 
 router.post('/product-create', function (req, res) {
   const { name, price, description } = req.body
@@ -97,39 +115,90 @@ router.post('/product-create', function (req, res) {
 
   res.render('alert', {
     style: 'alert',
+    info: 'Товар успішно додано',
   })
 })
 
 // =================================================================
 
-router.get('/user-delete', function (req, res) {
+router.get('/product-list', function (req, res) {
+  const list = Product.getList()
+
+  console.log(list)
+  res.render('product-list', {
+    style: 'product-list',
+
+    data: {
+      products: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
+  })
+})
+
+// =================================================================
+
+router.get('/product-edit', function (req, res) {
+  const { id } = req.query
+
+  const product = Product.getById(Number(id))
+
+  console.log(product)
+
+  if (product) {
+    return res.render('product-edit', {
+      style: 'product-edit',
+
+      data: {
+        name: product.name,
+        price: product.price,
+        id: product.id,
+        description: product.description,
+      },
+    })
+  } else {
+    return res.render('alert', {
+      style: 'alert',
+      info: 'Продукту за таким ID не знадено',
+    })
+  }
+})
+
+router.post('/product-edit', function (req, res) {
+  const { id, name, price, description } = req.body
+
+  const product = Product.updateById(
+    Number(id),
+    name,
+    price,
+    description,
+  )
+
+  console.log(id)
+  console.log(product)
+
+  if (product) {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Інформація про товар оновлена',
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      info: 'Сталася помилка',
+    })
+  }
+})
+
+router.get('/product-delete', function (req, res) {
   const { id } = req.query
 
   User.deleteById(Number(id))
 
-  res.render('sueccess-info', {
-    style: 'sueccess-info',
-    info: 'Користувач видалений',
-  })
-})
-
-router.post('/user-update', function (req, res) {
-  const { email, password, id } = req.body
-
-  let result = false
-
-  const user = User.getById(Number(id))
-
-  if (user.verifyPassword(password)) {
-    User.update(user, { email })
-    result = true
-  }
-
-  res.render('sueccess-info', {
-    style: 'sueccess-info',
-    info: result
-      ? 'Email пошта оновлена'
-      : 'Сталася помилка',
+  res.render('alert', {
+    style: 'alert',
+    info: 'Товар видалений',
   })
 })
 

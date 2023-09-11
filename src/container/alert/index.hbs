@@ -3,11 +3,16 @@
 в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
 }}
 
-<div>
-  <h1>Успішне виконання дії</h1>
-  <p>Товар успішно був видалений</p>
-  <a href="/">Повернутися назад</a>
-</div>
+<main>
+  <div class="card m-3" class="card__sueccsses">
+    <div class="card-body">
+      <div class="card__info">
+        {{info}}
+      </div>
+      <a href="/product-list">Повернутися назад</a>
+    </div>
+  </div>
+</main>
 
 {{!
 Цей код містить лише те, що буде виводитись в

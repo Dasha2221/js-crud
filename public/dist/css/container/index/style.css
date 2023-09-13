@@ -8,6 +8,7 @@
   font-size: 18px;
   font-weight: bold;
   padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
 }
 .form__content {
   display: grid;
@@ -36,6 +37,7 @@
   border-radius: 5px;
   color: #ddd;
   background-color: blue;
+  border-radius: 20px;
 }
 
 main {
@@ -43,6 +45,12 @@ main {
   flex-direction: column;
   padding: 16px;
   gap: 10;
+}
+
+.user-list li {
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -11,10 +11,19 @@ const router = express.Router()
 router.get('/', function (req, res) {
   // res.render генерує нам HTML сторінку
 
+  const list = User.getList()
+
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('index', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'index',
+
+    data: {
+      users: {
+        list,
+        isEmpty: list.length === 0,
+      },
+    },
   })
   // ↑↑ сюди вводимо JSON дані
 })
@@ -60,6 +69,37 @@ class Product {
     )
     if (index !== -1) {
       this.#list.splice(index, 1)
+    }
+  }
+}
+class User {
+  static #List = []
+
+  constructor(email, login, password) {
+    this.email = email
+    this.login = login
+    this.password = password
+    this.id = new Date().getTime()
+  }
+
+  verifyPassword = (password) => this.password === password
+
+  static add = (user) => {
+    this.#List.push(user)
+  }
+
+  static getList = () => this.#List
+
+  static getById = (id) =>
+    this.#List.find((user) => user.id === id)
+
+  static deleteById = (id) => {
+    const index = this.#List.findIndex(
+      (user) => user.id === id,
+    )
+    if (index !== -1) {
+      this.#List.splice(index, 1)
+
       return true
     } else {
       return false
@@ -74,12 +114,18 @@ class Product {
       if (name) {
         product.name = name
       }
-      return true
-    } else {
-      return false
+
+      const user = this.getById(id)
+
+      if (user) {
+        this.update(user, data)
+
+        return true
+      } else {
+        return false
+      }
     }
   }
-
   static update = (name, { product }) => {
     if (name) {
       product.name = name
@@ -116,6 +162,28 @@ router.post('/product-create', function (req, res) {
   res.render('alert', {
     style: 'alert',
     info: 'Товар успішно додано',
+    // static update = (user, { email }) => {
+    //   if (email) {
+    //     user.email = email
+    //   }
+    // }
+  })
+})
+
+// =================================================================
+
+router.post('/user-create', function (req, res) {
+  const { email, login, password } = req.body
+
+  const user = new User(email, login, password)
+
+  User.add(user)
+
+  console.log(User.getList())
+
+  res.render('sueccess-info', {
+    style: 'sueccess-info',
+    info: 'Користувач створений',
   })
 })
 
@@ -192,15 +260,40 @@ router.post('/product-edit', function (req, res) {
 })
 
 router.get('/product-delete', function (req, res) {
-  const { id } = req.query
+  router.get('/user-delete', function (req, res) {
+    const { id } = req.query
 
-  User.deleteById(Number(id))
+    User.deleteById(Number(id))
+    res.render('alert', {
+      style: 'alert',
+      info: 'Товар видалений',
+    })
+  })
 
-  res.render('alert', {
-    style: 'alert',
-    info: 'Товар видалений',
+  res.render('sueccess-info', {
+    style: 'sueccess-info',
+    info: 'Користувач видалений',
   })
 })
 
+router.post('/user-update', function (req, res) {
+  const { email, password, id } = req.body
+
+  let result = false
+
+  const user = User.getById(Number(id))
+
+  if (user.verifyPassword(password)) {
+    User.update(user, { email })
+    result = true
+  }
+
+  res.render('sueccess-info', {
+    style: 'sueccess-info',
+    info: result
+      ? 'Email пошта оновлена'
+      : 'Сталася помилка',
+  })
+})
 // Підключаємо роутер до бек-енду
 module.exports = router

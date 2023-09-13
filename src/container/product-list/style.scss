@@ -1,0 +1,41 @@
+@use '../../lib/servic.scss' as s;
+
+main {
+    padding: s.space(4);
+}
+
+.form__title {
+ color: blue;
+    padding-bottom: s.space(6);
+}
+
+.product__card {
+    display: flex;
+    flex-direction: column;
+    padding:s.space(1);
+    gap:4px;
+}
+
+.product__name {
+    font-size: 18px;
+font-weight: 600;
+}
+
+.product__price {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.product__row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+a {
+    color: s.color('light');
+    color: blue;
+    text-decoration: none;
+}

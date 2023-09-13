@@ -1,0 +1,21 @@
+@use '../../lib/servic.scss' as s;
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    color: s.color('light');
+    background-color: blue;
+    text-decoration: none;
+}

@@ -1,8 +1,9 @@
 <main class="main">
   {{#with data}}
-  <form method="POST" action="/purchase-submit?id={{id}}" class="form-card">
-    {{>heading title="інформація про замовлення"}}
+  <form class="form-card">
+    {{>heading title="Інформація про замовлення"}}
 
+    ID: {{id}}
 
     {{!--
     {{>field label="Ім'я" name="firstname"}}

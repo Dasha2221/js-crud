@@ -4,7 +4,6 @@ const express = require('express')
 const router = express.Router()
 
 // ================================================================
-
 class Product {
   static #list = []
 
@@ -13,15 +12,15 @@ class Product {
   constructor(
     img,
     title,
-    desctiption,
+    description,
     category,
     price,
     amount = 0,
   ) {
-    this.id = ++Product.#count //Генеруємо унікальний id для товару
+    this.id = ++Product.#count // Генеруємо унікальний id для товару
     this.img = img
     this.title = title
-    this.desctiption = desctiption
+    this.description = description
     this.category = category
     this.price = price
     this.amount = amount
@@ -38,21 +37,22 @@ class Product {
   }
 
   static getById = (id) => {
+    // console.log('Searching for product with id:', id)
     return this.#list.find((product) => product.id === id)
   }
 
   static getRandomList = (id) => {
-    //Фільтруємо товар, щоб вилучити той, з яким порівнюємо id
+    // Фільтруємо товари, щоб вилучити той, з яким порівнюємо id
     const filteredList = this.#list.filter(
       (product) => product.id !== id,
     )
 
-    //Відсортовуємо за допомогою Math.ramdom() та перемішаємо масив
+    // Відсортовуємо за допомогою Math.random() та перемашаємо масив
     const shuffledList = filteredList.sort(
       () => Math.random() - 0.5,
     )
 
-    //Повертаємо перші 3 елементи з перемішіного масиву
+    // Повертаємо перші 3 елементи з перемішаного масиву
     return shuffledList.slice(0, 3)
   }
 }
@@ -92,44 +92,51 @@ class Purchase {
   static #count = 0
   static #list = []
 
-  static #bonucAccount = new Map()
+  static #bonusAccount = new Map()
 
   static getBonusBalance = (email) => {
-    return Purchase.#bonucAccount.get(email) || 0
+    return Purchase.#bonusAccount.get(email) || 0
   }
 
-  static calcBonussAmount = (value) => {
+  static calcBonusAmount = (value) => {
     return value * Purchase.#BONUS_FACTOR
   }
 
-  static updateBonusDalanse = (
+  static updateBonusBalance = (
     email,
     price,
     bonusUse = 0,
   ) => {
-    const amount = this.calcBonussAmount(price)
+    const amount = this.calcBonusAmount(price)
 
-    const currentBalanse = Purchase.getBonusBalance(email)
+    const currentBalance = Purchase.getBonusBalance(email)
 
-    const updateBalance = currentBalanse + amount - bonusUse
+    const updatedBalance =
+      currentBalance + amount - bonusUse
 
-    Purchase.#bonucAccount.set(email, updateBalance)
+    Purchase.#bonusAccount.set(email, updatedBalance)
 
-    console.log(email, updateBalance)
+    console.log(email, updatedBalance)
 
     return amount
   }
 
   constructor(data, product) {
     this.id = ++Purchase.#count
+
     this.firstname = data.firstname
     this.lastname = data.lastname
+
     this.phone = data.phone
+    this.email = data.email
+    this.delivery = data.delivery
+
     this.comment = data.comment || null
 
     this.bonus = data.bonus || 0
 
     this.promocode = data.promocode || null
+
     this.totalPrice = data.totalPrice
     this.productPrice = data.productPrice
     this.deliveryPrice = data.deliveryPrice
@@ -140,7 +147,11 @@ class Purchase {
 
   static add = (...arg) => {
     const newPurchase = new Purchase(...arg)
+
     this.#list.push(newPurchase)
+
+    // Оновлення об'єкту product після успішної покупки
+    newPurchase.product.amount -= newPurchase.amount
 
     return newPurchase
   }
@@ -150,22 +161,25 @@ class Purchase {
       id: purchase.id,
       product: purchase.product.title,
       totalPrice: purchase.totalPrice,
-      // bonus: Purchase.calcBonusAmount(purchase.totalPrice),
+      bonus: Purchase.calcBonusAmount(purchase.totalPrice),
     }))
   }
-  static getByld = (id) => {
-    return Purchase.#list.find((item) => item.id === id)
+
+  static getById = (id) => {
+    return this.#list.find((item) => item.id === id)
   }
+
   static updateById = (id, data) => {
-    const purchase = Purchase.getByld(id)
+    const purchase = Purchase.getById(id)
 
     if (purchase) {
       if (data.firstname)
         purchase.firstname = data.firstname
       if (data.lastname) purchase.lastname = data.lastname
-
       if (data.phone) purchase.phone = data.phone
       if (data.email) purchase.email = data.email
+      if (data.delivery) purchase.delivery = data.delivery
+
       return true
     } else {
       return false
@@ -280,7 +294,7 @@ router.post('/purchase-create', function (req, res) {
 
   const productPrice = product.price * amount
   const totalPrice = productPrice + Purchase.DELIVERY_PRICE
-  const bonus = Purchase.calcBonussAmount(totalPrice)
+  const bonus = Purchase.calcBonusAmount(totalPrice)
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-create', {
@@ -404,11 +418,11 @@ router.post('/purchase-submit', function (req, res) {
       bonus = bonusAmount
     }
 
-    Purchase.updateBonusDalanse(email, totalPrice, bonus)
+    Purchase.updateBonusBalance(email, totalPrice, bonus)
 
     totalPrice -= bonus
   } else {
-    Purchase.updateBonusDalanse(email, totalPrice, 0)
+    Purchase.updateBonusBalance(email, totalPrice, 0)
   }
 
   if (promocode) {
@@ -485,24 +499,24 @@ router.get('/purchase-list', function (req, res) {
 // ================================================================
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
-router.post('/purchase-info', function (req, res) {
+router.get('/purchase-info', function (req, res) {
   const id = Number(req.query.id)
-  const amount = Number(req.query.amount)
-  // // res.render генерує нам HTML сторінку
+  // res.render генерує нам HTML сторінку
 
   const product = Product.getById(id)
 
-  console.log(product, amount)
+  console.log(product)
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-info', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-info',
 
-    data: {},
+    data: {
+      list: Product.getById(id),
+    },
   })
   // ↑↑ сюди вводимо JSON дані
 })
-
 // Підключаємо роутер до бек-енду
 module.exports = router

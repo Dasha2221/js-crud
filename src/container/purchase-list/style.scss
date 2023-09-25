@@ -1,0 +1,31 @@
+@use '../../lib/servic.scss' as s;
+
+@use '../../component/heading/style.scss' as heading;
+@use '../../component/divider/style.scss' as divider;
+@use '../../component/field/style.scss' as field;
+@use '../../component/button/style.scss' as button;
+
+
+.main {
+display: flex;
+flex-direction: column;
+gap: s.space(10);
+padding: s.space(10) ;
+}
+
+.list {
+    display:grid;
+grid-template-columns: 1fr ;
+    gap: s.space(10);
+    padding: s.space(3) ;
+    }
+
+    .list_card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list_href {
+        text-decoration: none;
+        color: black;
+    }

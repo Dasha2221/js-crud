@@ -501,7 +501,6 @@ router.get('/purchase-list', function (req, res) {
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-info', function (req, res) {
   const id = Number(req.query.id)
-  // res.render генерує нам HTML сторінку
 
   const product = Product.getById(id)
 

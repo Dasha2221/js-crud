@@ -216,8 +216,6 @@ Promocode.add('SALE25', 0.75)
 // =============================================================================
 
 // router.get Створює нам один ентпоїнт
-
-// ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/', function (req, res) {
   // res.render генерує нам HTML сторінку
 
@@ -227,20 +225,20 @@ router.get('/', function (req, res) {
     style: 'purchase-index',
 
     data: {
-      list: Product.getList(),
+      products: Product.getList(),
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
 
-// ========================================================================================
+// ================================================================
 
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-product', function (req, res) {
-  const id = Number(req.query.id)
   // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-product', {
@@ -255,24 +253,24 @@ router.get('/purchase-product', function (req, res) {
   // ↑↑ сюди вводимо JSON дані
 })
 
-// ============================================================================
+// ================================================================
 
 // router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/purchase-create', function (req, res) {
-  const id = Number(req.query.id)
-  const amount = Number(req.query.amount)
   // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+  const amount = Number(req.body.amount)
 
   if (amount < 1) {
     return res.render('alert', {
       style: 'alert',
 
       data: {
-        messages: 'Помилка',
-        info: 'Некоректна кількість товару',
         link: `/purchase-product?id=${id}`,
+        title: 'Помилка',
+        info: 'Некоректна кількість товару',
       },
     })
   }
@@ -283,9 +281,9 @@ router.post('/purchase-create', function (req, res) {
       style: 'alert',
 
       data: {
-        messages: 'Помилка',
-        info: 'Такої кількості товару нема в наявності',
         link: `/purchase-product?id=${id}`,
+        title: 'Помилка',
+        info: 'Такої кількості товару немає в намявнсисті',
       },
     })
   }
@@ -298,7 +296,6 @@ router.post('/purchase-create', function (req, res) {
 
   // ↙️ cюди вводимо назву файлу з сontainer
   res.render('purchase-create', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'purchase-create',
 
     data: {
@@ -306,24 +303,25 @@ router.post('/purchase-create', function (req, res) {
       cart: [
         {
           text: `${product.title} (${amount} шт)`,
-          price: productPrice,
+          price: product.price,
         },
         {
-          text: `Доставка`,
+          text: 'Вартість доставки',
           price: Purchase.DELIVERY_PRICE,
         },
       ],
       totalPrice,
       productPrice,
-      deliveryPrice: Purchase.DELIVERY_PRICE,
       amount,
       bonus,
+      deliveryPrice: Purchase.DELIVERY_PRICE,
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
 
-// ==============================================================================
+// ================================================================
+// router.get Створює нам один ентпоїнт
 
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.post('/purchase-submit', function (req, res) {
@@ -352,9 +350,9 @@ router.post('/purchase-submit', function (req, res) {
       style: 'alert',
 
       data: {
-        messages: 'Помилка',
-        info: ' Товар не знайдено',
-        link: `/purchase-list`,
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Товар не знайдено',
       },
     })
   }
@@ -362,11 +360,10 @@ router.post('/purchase-submit', function (req, res) {
   if (product.amount < amount) {
     return res.render('alert', {
       style: 'alert',
-
       data: {
-        messages: 'Помилка',
-        info: ' Товару нема в потрібній кількості',
-        link: `/purchase-list`,
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Товару немає в потрібній кількості',
       },
     })
   }
@@ -385,26 +382,24 @@ router.post('/purchase-submit', function (req, res) {
     isNaN(bonus)
   ) {
     return res.render('alert', {
-      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'alert',
 
       data: {
-        messages: 'Помилка',
-        info: 'Некоректні дані',
-        link: `/purchase-list`,
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Некорректні данні',
       },
     })
   }
 
-  if (!firstname || !lastname || !email || !phone) {
+  if ((!firstname, !lastname, !email, !phone)) {
     return res.render('alert', {
-      // вказуємо назву папки контейнера, в якій знаходяться наші стилі
       style: 'alert',
 
       data: {
-        messages: 'Заповніть обов"язкові поля',
-        info: 'Некоректні дані',
-        link: `/purchase-list`,
+        link: '/purchase-list',
+        title: "Заповніть обов'язкові поля",
+        info: 'Некорректні данні',
       },
     })
   }
@@ -456,21 +451,22 @@ router.post('/purchase-submit', function (req, res) {
   console.log(purchase)
 
   res.render('alert', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
     style: 'alert',
 
     data: {
-      messages: 'Успішно',
-      info: 'Замовлення створено',
-      link: `/purchase-list`,
+      link: '/purchase-list',
+      title: 'Успішне виконання дії',
+      info: 'Замовлення створене',
     },
   })
   // ↑↑ сюди вводимо JSON дані
 })
 
-// =========================================================================================
+// ================================================================
 
-// // ↙️ тут вводимо шлях (PATH) до сторінки
+// router.get Створює нам один ентпоїнт
+
+// ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-list', function (req, res) {
   // res.render генерує нам HTML сторінку
   // console.log(bonus)
@@ -489,7 +485,6 @@ router.get('/purchase-list', function (req, res) {
       purchases: {
         list,
       },
-
       // bonus, // Отримати bonusAmount з параметрів URL
     },
   })
@@ -501,20 +496,39 @@ router.get('/purchase-list', function (req, res) {
 // ↙️ тут вводимо шлях (PATH) до сторінки
 router.get('/purchase-info', function (req, res) {
   const id = Number(req.query.id)
+  // res.render генерує нам HTML сторінку
 
-  const product = Product.getById(id)
+  const purchase = Purchase.getById(id)
 
-  console.log(product)
+  console.log(purchase)
 
-  // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('purchase-info', {
-    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'purchase-info',
-
-    data: {
-      list: Product.getById(id),
-    },
-  })
+  if (purchase) {
+    res.render('purchase-info', {
+      style: 'purchase-info',
+      data: {
+        id: purchase.id,
+        firstname: purchase.firstname,
+        lastname: purchase.lastname,
+        phone: purchase.phone,
+        email: purchase.email,
+        product: purchase.product.title,
+        comment: purchase.comment,
+        productPrice: purchase.productPrice,
+        totalPrice: purchase.totalPrice,
+        delivery: purchase.delivery,
+        bonus: purchase.bonus,
+      },
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      data: {
+        link: '/purchase-list',
+        title: 'Замовлення не знайдено',
+        info: 'Помилка',
+      },
+    })
+  }
   // ↑↑ сюди вводимо JSON дані
 })
 // Підключаємо роутер до бек-енду

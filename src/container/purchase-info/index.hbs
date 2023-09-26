@@ -1,42 +1,34 @@
 <main class="main">
   {{#with data}}
-  <form class="form-card">
+  <form method="POST" action="/purchase-info?id={{id}}" class="form-card">
     {{>heading title="Інформація про замовлення"}}
 
     ID: {{id}}
-
-    {{!--
-    {{>field label="Ім'я" name="firstname"}}
     {{>divider}}
 
-    {{>field label="Прізвіще" name="lastname"}}
-
-    {{>divider}}
-    {{>field label="Телефон" name="phone"}}
-    {{>divider}}
-
-    {{>field label="Пошта" name="email"}}
-    {{>divider}}
-
-    {{>field label="Коментар" name="comment"}}
+    <div class="info">
+      <div class="info_firstname">Ім'я: {{firstname}}</div>
+      <div class="info_lastname">Прізвище:{{lastname}} </div>
+      <div class="info_phone">Телефон:{{phone}} </div>
+      <div class="info_email">Електронна пошта: {{email}}</div>
+    </div>
     {{>divider}}
 
-    {{>field label="Списати бонус" name="bonus"}}
+    <div class="product">
+      Назва товару: {{product}}
+    </div>
+    <div class="comment">Коментар:
+      {{comment}} </div>
+
     {{>divider}}
+    <div class="info">
+      <div class="info_price_product">Вартість товарів:{{productPrice}} </div>
+      <div class="info_price">Сума до сплати:{{totalPrice}} </div>
+      <div class="info_delivery">Вартість доставки: {{delivery}}</div>
+      <div class="info_bonus">Нараховані бонуси: {{bonus}}</div>
+    </div>
 
-    {{>field label="Промо-код" name="promocode"}}
     {{>divider}}
-
-    {{>divider}}
-
-    {{>field value=totalPrice name="totalPrice" disabled=true}}
-    {{>field value=productPrice name="productPrice" disabled=true}}
-    {{>field value=deliveryPrice name="deliveryPrice" disabled=true}}
-    {{>field value=amount name="amount" disabled=true}}
-
-    <strong class="form-card__total">
-      Всього: {{totalPrice}} грн ({{bonus}} грн бонусів)
-    </strong> --}}
 
     {{>button text="Змінити дані"}}
   </form>

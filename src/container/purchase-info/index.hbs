@@ -1,6 +1,6 @@
 <main class="main">
   {{#with data}}
-  <form method="POST" action="/purchase-info?id={{id}}" class="form-card">
+  <form class="form-card">
     {{>heading title="Інформація про замовлення"}}
 
     ID: {{id}}
@@ -9,6 +9,8 @@
     <div class="info">
       <div class="info_firstname">Ім'я: {{firstname}}</div>
       <div class="info_lastname">Прізвище:{{lastname}} </div>
+    </div>
+    <div class="info">
       <div class="info_phone">Телефон:{{phone}} </div>
       <div class="info_email">Електронна пошта: {{email}}</div>
     </div>
@@ -30,7 +32,10 @@
 
     {{>divider}}
 
-    {{>button text="Змінити дані"}}
+    <a href="/purchase-change?id={{id}}" class="button">
+      {{>button text="Змінити дані"}}
+    </a>
+
   </form>
   {{/with}}
 </main>

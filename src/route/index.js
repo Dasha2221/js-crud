@@ -531,5 +531,66 @@ router.get('/purchase-info', function (req, res) {
   }
   // ↑↑ сюди вводимо JSON дані
 })
+
+// =======================================================================
+
+// router.get Створює нам один ентпоїнт
+router.get('/purchase-change', function (req, res) {
+  const id = Number(req.query.id)
+  // Отримуємо дані покупки за допомогою getById
+  const purchase = Purchase.getById(id)
+
+  if (purchase) {
+    res.render('purchase-change', {
+      style: 'purchase-change',
+      data: {
+        id: purchase.id,
+        firstname: purchase.firstname,
+        lastname: purchase.lastname,
+        phone: purchase.phone,
+        email: purchase.email,
+      },
+    })
+  } else {
+    res.render('alert', {
+      style: 'alert',
+      data: {
+        link: '/purchase-list',
+        title: 'Замовлення не знайдено',
+        info: 'Помилка',
+      },
+    })
+  }
+})
+
+// Оновлення даних покупки за допомогою POST-запиту
+router.post('/purchase-change', function (req, res) {
+  const id = Number(req.body.id) // Отримуємо ID з форми
+  // Отримуємо нові дані з форми
+  const { firstname, lastname, phone, email } = req.body
+
+  // Викликаємо метод updateById для оновлення даних покупки
+  const updated = Purchase.updateById(id, {
+    firstname,
+    lastname,
+    phone,
+    email,
+  })
+
+  if (updated) {
+    // Якщо дані успішно оновлено, перенаправляємо користувача на сторінку із списком покупок або іншу потрібну сторінку
+    res.redirect('/purchase-list')
+  } else {
+    // Якщо не вдалося знайти покупку за ID, виводимо повідомлення про помилку
+    res.render('alert', {
+      style: 'alert',
+      data: {
+        link: '/purchase-list',
+        title: 'Помилка',
+        info: 'Покупку не вдалося оновити',
+      },
+    })
+  }
+})
 // Підключаємо роутер до бек-енду
 module.exports = router

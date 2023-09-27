@@ -13,12 +13,11 @@ gap: s.space(10);
 padding: s.space(10) ;
 }
 
-.list {
-    display:grid;
-grid-template-columns: 1fr ;
-    gap: s.space(10);
-    padding: s.space(3) ;
-    }
+.card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
 
     .list_card {
         display: flex;
@@ -29,3 +28,4 @@ grid-template-columns: 1fr ;
         text-decoration: none;
         color: black;
     }
+

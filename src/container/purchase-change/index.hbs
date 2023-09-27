@@ -1,0 +1,23 @@
+<main class="main">
+  {{#with data}}
+  <form class="form-card">
+    {{>heading title="Заміна даних"}}
+
+    ID: {{id}}
+
+
+    {{>field label="Ім'я" name="firstname"}}
+
+    {{>field label="Прізвіще" name="lastname"}}
+
+    {{>field label="Телефон" name="phone"}}
+
+    {{>field label="Пошта" name="email"}}
+
+    <a href="/purchase-change?id={{id}}" class="button">
+      {{>button text="Зберегти дані"}}
+    </a>
+
+  </form>
+  {{/with}}
+</main>

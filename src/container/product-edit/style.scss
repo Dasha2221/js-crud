@@ -1,6 +1,10 @@
-<<<<<<< HEAD
-=======
 @use '../../lib/servic.scss' as s;
+main {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(4);
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -11,8 +15,6 @@
         font-size: 18px;
         font-weight: bold;
         padding-bottom: s.space(1);
-
-        border-bottom: 1px solid s.color('light');
     }
 
     &__content {
@@ -26,7 +28,6 @@
         gap: s.space(2);
     }
 
-
     &__product {
         display: flex;
         flex-direction: row;
@@ -36,36 +37,41 @@
     &__label {
         font-size: 14px;
     }
+
+
     &__input {
         border: 1px solid s.color('light');
         padding: s.space(2);
     }
 
-    &__button {
-        border: 1px solid s.color('light');
-        padding: s.space(2);
-        border-radius: 5px;
-        color: s.color('light');
-        background-color: blue;
-
-        border-radius: 20px;
-
-    }
 }
 
-main {
+h2 {
+    color: blue;
+    padding-bottom: s.space(2);
+}
+
+.form__button{
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    color: s.color('light');
+    background-color: blue;
+    text-decoration: none;
+}
+
+.button {
     display: flex;
-    flex-direction: column;
-    padding: s.space(4);
-    gap: 10;
-
+    flex-direction: row;
+    padding: s.space(2);
+    padding-top: s.space(4);
 }
 
-.user-list {
-    li {
-        padding-right: 15px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
+a {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    color: s.color('light');
+    background-color: red;
+    text-decoration: none;
 }
->>>>>>> ea7a3e0ebd0d1e7250de42fd96fde78b5d29d950

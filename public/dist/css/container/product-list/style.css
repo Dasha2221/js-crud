@@ -1,0 +1,40 @@
+main {
+  padding: 16px;
+}
+
+.form__title {
+  color: blue;
+  padding-bottom: 24px;
+}
+
+.product__card {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  gap: 4px;
+}
+
+.product__name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.product__price {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.product__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  color: #ddd;
+  color: blue;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=style.css.map */

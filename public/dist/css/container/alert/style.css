@@ -1,17 +1,58 @@
-/* Error: expected "{".
- *    ,
- * 64 | >>>>>>> ea7a3e0ebd0d1e7250de42fd96fde78b5d29d950
- *    |                                                 ^
- *    '
- *   src\container\alert\style.scss 64:49  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: 'Error: expected "{".\a    \2577 \a 64 \2502  >>>>>>> ea7a3e0ebd0d1e7250de42fd96fde78b5d29d950\d\a    \2502                                                  ^\a    \2575 \a   src\\container\\alert\\style.scss 64:49  root stylesheet';
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
 }
+.card__header {
+  flex-grow: 1;
+}
+.card__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+.card__subtitle {
+  font-size: 18px;
+  margin-top: 8px;
+  color: #666666;
+}
+.card__button {
+  background-color: blue;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.card__button:hover {
+  background-color: darkblue;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+  color: #ddd;
+  background-color: blue;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=style.css.map */

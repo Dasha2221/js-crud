@@ -1,0 +1,77 @@
+@use '../../lib/servic.scss' as s;
+main {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(4);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(4);
+    gap: s.space(8);
+
+    &__title {
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: s.space(1);
+    }
+
+    &__content {
+        display: grid;
+        gap: s.space(6);
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: s.space(2);
+    }
+
+    &__product {
+        display: flex;
+        flex-direction: row;
+        gap: s.space(2);
+    }
+
+    &__label {
+        font-size: 14px;
+    }
+
+
+    &__input {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+    }
+
+}
+
+h2 {
+    color: blue;
+    padding-bottom: s.space(2);
+}
+
+.form__button{
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    color: s.color('light');
+    background-color: blue;
+    text-decoration: none;
+}
+
+.button {
+    display: flex;
+    flex-direction: row;
+    padding: s.space(2);
+    padding-top: s.space(4);
+}
+
+a {
+    border: 1px solid s.color('light');
+    padding: s.space(2);
+    border-radius: 5px;
+    color: s.color('light');
+    background-color: red;
+    text-decoration: none;
+}

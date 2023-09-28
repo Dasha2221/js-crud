@@ -1,0 +1,24 @@
+@use '../../lib/servic.scss' as s;
+
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.field_label {
+    font-size: 14px;
+}
+
+.field_input{
+    border: 1px solid s.color('ligth');
+    padding: s.space(2);
+    border-radius: 10px;
+}
+
+.field--disabled {
+    position: absolute;
+    display: none;
+}

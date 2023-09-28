@@ -24,6 +24,13 @@ class Track {
   static getList() {
     return this.#list.reverse()
   }
+
+  // Статичний метод для отримання треку за ідентифікатором
+  static getById(id) {
+    return (
+      this.#list.find((track) => track.id === id) || null
+    )
+  }
 }
 
 Track.create(
@@ -67,6 +74,7 @@ class Playlist {
     this.id = Math.floor(1000 + Math.random() * 9000)
     this.name = name
     this.tracks = []
+    this.image = 'https://picsum.photos/100/100'
   }
 
   // Статичний метод для створення обʼєкту Playlist 1 додавання його до списку #list
@@ -89,6 +97,20 @@ class Playlist {
       .slice(0, 3)
 
     playlist.tracks.push(...randomTracks)
+  }
+
+  static getById(id) {
+    return (
+      Playlist.#list.find(
+        (playlist) => playlist.id === id,
+      ) || null
+    )
+  }
+
+  deleteTrackById(trackId) {
+    this.tracks = this.tracks.filter(
+      (track) => track.id !== trackId,
+    )
   }
 }
 // ===============================================================================
@@ -159,14 +181,141 @@ router.post('/spotify-create', function (req, res) {
   console.log(playlist)
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('alert', {
+  res.render('spotify-playlist', {
     // вказуємо назву папки контейнера, в якій знаходяться наші стилі
-    style: 'alert',
+    style: 'spotify-playlist',
 
     data: {
-      messages: 'Успішно',
-      info: 'Плейлист створений',
-      link: `/spotify-playlist?id=${playlist.id}`,
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
+    },
+  })
+})
+
+router.get('/spotify-playlist', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const id = Number(req.query.id)
+
+  const playList = Playlist.getList(id)
+
+  if (!playList) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        messages: 'Помилка',
+        info: 'Такого плейлиста не знайдено',
+        link: `/`,
+      },
+    })
+  }
+
+  res.render('spotify-playlist', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-playlist',
+
+    data: {
+      playlistId: playList.id,
+      tracks: playList.tracks,
+      name: playList.name,
+    },
+  })
+})
+
+router.get('/spotify-track-delete', function (req, res) {
+  // res.render генерує нам HTML сторінку
+  const playlistId = Number(req.query.playlistId)
+  const trackId = Number(req.query.trackId)
+
+  const playlist = Playlist.getById(playlistId)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+
+      data: {
+        messages: 'Помилка',
+        info: 'Такого плейлиста не знайдено',
+        link: `/spotify-playlist?id=${playlistId}`,
+      },
+    })
+  }
+
+  playlist.deleteTrackById(trackId)
+
+  res.render('spotify-playlist', {
+    // вказуємо назву папки контейнера, в якій знаходяться наші стилі
+    style: 'spotify-playlist',
+
+    data: {
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
+    },
+  })
+})
+// Шлях GET для відображення сторінки, на якій можна додавати треки до плейліста
+router.get('/spotify-track-add', function (req, res) {
+  const playlistId = Number(req.query.playlistId)
+  const playlist = Playlist.getById(playlistId)
+  const allTracks = Track.getList()
+
+  console.log(playlistId, playlist, allTracks)
+
+  res.render('spotify-track-add', {
+    style: 'spotify-track-add',
+
+    data: {
+      playlistId: playlist.id,
+      tracks: allTracks,
+      // link: `/spotify-track-add?playlistId={playlistId}}&trackId=={id}}`,
+    },
+  })
+})
+
+// ================================================================
+// Шлях POST для додавання треку до плейліста
+router.post('/spotify-track-add', function (req, res) {
+  const playlistId = Number(req.body.playlistId)
+  const trackId = Number(req.body.trackId)
+
+  const playlist = Playlist.getById(playlistId)
+
+  if (!playlist) {
+    return res.render('alert', {
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Такого плейлиста не знайдено',
+        link: `/spotify-playlist?id=${playlistId}`,
+      },
+    })
+  }
+
+  const trackToAdd = Track.getList().find(
+    (track) => track.id === trackId,
+  )
+
+  if (!trackToAdd) {
+    return res.render('alert', {
+      style: 'alert',
+      data: {
+        message: 'Помилка',
+        info: 'Такого треку не знайдено',
+        link: `/spotify-track-add?playlistId=${playlistId}`,
+      },
+    })
+  }
+
+  playlist.tracks.push(trackToAdd)
+
+  res.render('spotify-playlist', {
+    style: 'spotify-playlist',
+    data: {
+      playlistId: playlist.id,
+      tracks: playlist.tracks,
+      name: playlist.name,
     },
   })
 })

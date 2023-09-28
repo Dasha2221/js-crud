@@ -1,0 +1,58 @@
+@use '../../lib/servic.scss' as s;
+
+.product-card {
+border-radius: 10px;
+border: 1px solid s.color(border);
+padding: s.space(4);
+display: flex;
+flex-direction: column; 
+align-items: flex-start;
+gap: s.space(3);
+}
+
+.product-card_image { 
+max-height: 300px;
+width: 100%;
+}
+
+.product-card_title { 
+font-size: 20px;
+font-weight: bold;
+}
+.product-card_subtitle {
+font-size: 16px;
+color: s.color(gray);
+}
+
+.product-card_category {
+    padding: s.space(1) s.space(3);
+    border-radius: 30px;
+    font-size: 14px;
+    color: s.color(dark);
+    border: 1px solid transparent;
+}
+
+.product-card_category--1 {
+    border-color: blue;
+    color: blue;
+}
+
+.product-card_category--2 {
+    border-color: green;
+    color: green;
+}
+
+.product-card_button {
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}

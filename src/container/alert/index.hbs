@@ -1,22 +1,12 @@
+<div class="card">
+  <div class="card__header">
+    <h2 class="card__title">{{data.title}}</h2>
+    <h3 class="card__subtitle">{{data.info}}</h3>
+  </div>
+  <a href="{{data.link}}" class="card__button">Повернутися назад</a>
+</div>
+
 {{!
 Це код container файлу для index сторінки,
 в якому міститься код, котрий буде віддаватися по шляху (PATH) - "/"
 }}
-
-<main>
-  <div class="card m-3" class="card__sueccsses">
-    <div class="card-body">
-      <div class="card__info">
-        {{info}}
-      </div>
-      <a href="/product-list">Повернутися назад</a>
-    </div>
-  </div>
-</main>
-
-{{!
-Цей код містить лише те, що буде виводитись в
-
-<body>
-  Адже наш layout/default.hbs має вже структуру HTML
-  }}

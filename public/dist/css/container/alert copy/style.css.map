@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+{"version":3,"sourceRoot":"","sources":["../../../../../src/container/alert%20copy/style.scss"],"names":[],"mappings":"AACA;EACI;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;;AAGJ;EACI;EACA;;AAGJ;EACI;EACA;EACA;;AAGJ;EACI;;AAIJ;EACI;EACA;;AAGJ;EACI;EACA;EACA;;;AAIR;EACI;EACA;EACA;;;AAIA;EACI;EACA;EACA","file":"style.css"}
+=======
 {"version":3,"sourceRoot":"","sources":["../../../../../src/container/alert%20copy/style.scss"],"names":[],"mappings":"AACA;EACI;EACA;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA","file":"style.css"}
+>>>>>>> ea7a3e0ebd0d1e7250de42fd96fde78b5d29d950

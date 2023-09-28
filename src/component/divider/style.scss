@@ -1,0 +1,9 @@
+@use '../../lib/servic.scss' as s;
+
+
+.product-info_divider { 
+    width: 100%;
+    display: grid;
+    height: 1px;
+    background: gray;
+    }

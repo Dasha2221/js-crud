@@ -6,13 +6,21 @@
 <main class="main">
   {{#with data}}
   <div class="main_content">
-    <h1 class="title title--center">Пошук плейліста</h1>
 
-    <form method="POST" action="/spotify-search" class="search">
-      <img src="/svg/spotify-search.svg">
-      <input type="search" class="search_input" placeholder="Введіть запит" name="value" value="{{value}}">
-      <button class="search_button">Пошук</button>
-    </form>
+    <div class="library__content">
+      <h1 class="title title--center">Мої плейлисти</h1>
+
+      <div class="library">
+        <a href="/spotify-search">
+          <img src="/svg/spotify-search.svg">
+        </a>
+
+        <a href="/">
+          <img src="/svg/add_button.svg">
+        </a>
+      </div>
+    </div>
+
 
     <ul class="playlist__list">
       {{#each list}}

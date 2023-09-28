@@ -112,7 +112,19 @@ class Playlist {
       (track) => track.id !== trackId,
     )
   }
+
+  static findListByValue(name) {
+    return this.#list.filter((playlist) => {
+      playlist.name
+        .toLowerCase()
+        .includes(name.toLowerCase())
+    })
+  }
 }
+
+Playlist.makeMix(Playlist.create('Test1'))
+Playlist.makeMix(Playlist.create('Test2'))
+Playlist.makeMix(Playlist.create('Test3'))
 // ===============================================================================
 // router.get Створює нам один ентпоїнт
 
@@ -319,5 +331,63 @@ router.post('/spotify-track-add', function (req, res) {
     },
   })
 })
+// ========================================================================================
+router.get('/spotify-search', function (req, res) {
+  const value = ''
+
+  const list = Playlist.findListByValue(value)
+
+  console.log(value)
+
+  res.render('spotify-search', {
+    style: 'spotify-search',
+
+    data: {
+      list: list.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+      value,
+    },
+  })
+})
+
+router.post('/spotify-search', function (req, res) {
+  const value = req.body.value || ''
+
+  const list = Playlist.findListByValue(value)
+
+  res.render('spotify-search', {
+    style: 'spotify-search',
+
+    data: {
+      list: list.map(({ tracks, ...rest }) => ({
+        ...rest,
+        amount: tracks.length,
+      })),
+      value,
+    },
+  })
+})
+router.get('/spotify-library', function (req, res) {
+  const playlists = Playlist.getList()
+
+  // Обчислення кількості пісень в кожному плейлисті
+  const playlistsWithSongCount = playlists.map(
+    (playlist) => ({
+      ...playlist,
+      amount: playlist.tracks.length,
+    }),
+  )
+
+  res.render('spotify-library', {
+    style: 'spotify-library',
+    data: {
+      list: playlistsWithSongCount,
+      value: '',
+    },
+  })
+})
+
 // Підключаємо роутер до бек-енду
 module.exports = router

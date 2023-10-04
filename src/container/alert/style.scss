@@ -1,3 +1,59 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+@use '../../lib/servic.scss' as s;
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: s.space(4);
+    gap: s.space(8);
+
+    &__title {
+        font-size: 18px;
+        font-weight: bold;
+        padding-bottom: s.space(1);
+
+        border-bottom: 1px solid s.color('light');
+    }
+
+    &__content {
+        display: grid;
+        gap: s.space(6);
+    }
+
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: s.space(2);
+    }
+
+
+    &__product {
+        display: flex;
+        flex-direction: row;
+        gap: s.space(2);
+    }
+
+    &__label {
+        font-size: 14px;
+    }
+    &__input {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+    }
+
+    &__button {
+        border: 1px solid s.color('light');
+        padding: s.space(2);
+        border-radius: 5px;
+        color: s.color('light');
+        background-color: blue;
+
+        border-radius: 20px;
+
+    }
+}
+=======
 @use '../../lib/servic.scss' as s;
 
 .card {
@@ -40,10 +96,26 @@ display: flex;
     }
 }
 }
+>>>>>>> cd92bac20a5529144511aa964538c51ece53b0fc
 
 main {
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
+    padding: s.space(4);
+    gap: 10;
+
+}
+
+.user-list {
+    li {
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+>>>>>>> ea7a3e0ebd0d1e7250de42fd96fde78b5d29d950
+=======
 }
 
 .card-body {
@@ -62,3 +134,4 @@ a {
     text-decoration: none;
 }
 
+>>>>>>> cd92bac20a5529144511aa964538c51ece53b0fc

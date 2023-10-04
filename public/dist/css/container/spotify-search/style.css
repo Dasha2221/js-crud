@@ -1,0 +1,22 @@
+/* Error: Duplicate key.
+ *     ,
+ * 6   |     main:blue,
+ *     |     ==== first key
+ * ... |
+ * 9   |     main:blue,
+ *     |     ^^^^ second key
+ *     '
+ *   src\lib\var.scss 9:5                         @use
+ *   src\lib\servic.scss 4:1                      @use
+ *   src\container\spotify-search\style.scss 1:1  root stylesheet */
+
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Duplicate key.\a     \2577 \a 6   \2502      main:blue,\d\a     \2502      \2501 \2501 \2501 \2501  first key\a... \2502 \a 9   \2502      main:blue,\d\a     \2502      ^^^^ second key\a     \2575 \a   src\\lib\\var.scss 9:5                         @use\a   src\\lib\\servic.scss 4:1                      @use\a   src\\container\\spotify-search\\style.scss 1:1  root stylesheet";
+}

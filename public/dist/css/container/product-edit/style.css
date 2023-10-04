@@ -1,70 +1,22 @@
-main {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-}
+/* Error: Duplicate key.
+ *     ,
+ * 6   |     main:blue,
+ *     |     ==== first key
+ * ... |
+ * 9   |     main:blue,
+ *     |     ^^^^ second key
+ *     '
+ *   src\lib\var.scss 9:5                       @use
+ *   src\lib\servic.scss 4:1                    @use
+ *   src\container\product-edit\style.scss 1:1  root stylesheet */
 
-.form {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  gap: 32px;
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Duplicate key.\a     \2577 \a 6   \2502      main:blue,\d\a     \2502      \2501 \2501 \2501 \2501  first key\a... \2502 \a 9   \2502      main:blue,\d\a     \2502      ^^^^ second key\a     \2575 \a   src\\lib\\var.scss 9:5                       @use\a   src\\lib\\servic.scss 4:1                    @use\a   src\\container\\product-edit\\style.scss 1:1  root stylesheet";
 }
-.form__title {
-  font-size: 18px;
-  font-weight: bold;
-  padding-bottom: 4px;
-}
-.form__content {
-  display: grid;
-  gap: 24px;
-}
-.form__field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.form__product {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-}
-.form__label {
-  font-size: 14px;
-}
-.form__input {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-h2 {
-  color: blue;
-  padding-bottom: 8px;
-}
-
-.form__button {
-  border: 1px solid #ddd;
-  padding: 8px;
-  border-radius: 5px;
-  color: #ddd;
-  background-color: blue;
-  text-decoration: none;
-}
-
-.button {
-  display: flex;
-  flex-direction: row;
-  padding: 8px;
-  padding-top: 16px;
-}
-
-a {
-  border: 1px solid #ddd;
-  padding: 8px;
-  border-radius: 5px;
-  color: #ddd;
-  background-color: red;
-  text-decoration: none;
-}
-
-/*# sourceMappingURL=style.css.map */
